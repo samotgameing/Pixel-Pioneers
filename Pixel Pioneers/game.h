@@ -1,3 +1,4 @@
+//MADE BY SAMOT
 #ifndef game_h
 #define game_h
 // structs
