@@ -14,7 +14,7 @@ int starty = 10;
 int debug = 0;
 int portalpositioncheck = 1;
 
-int main(int argc, string argv[])
+int main(int argc, char *argv[])
 {
     time_t t;
     srand((unsigned) time(&t));
@@ -186,7 +186,9 @@ Point get_input(World *worldarray)
     do
     {
         printf("wasd: ");
-        scanf("%c", &wasd);
+        wasd = getchar();
+        int ch;
+        while ((ch = getchar()) != '\n' && ch != EOF);
         switch (wasd)
         {
             case 'w':
