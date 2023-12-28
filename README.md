@@ -2,7 +2,7 @@
 Pixel Pioneers is a Bash terminal based 2D game 
 
 ## controls
-controls are w a s d then press enter
+controls are w a s d then press enter  
 press e to exit
 
 ## game objects  
