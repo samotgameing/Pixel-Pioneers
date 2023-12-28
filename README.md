@@ -25,7 +25,7 @@ portal is ^ coloured in light blue
 function list is in game.h
 
 ## Installation
-download github file [./Pixel Pioneers ](https://github.com/samotgameing/Pixel-Pioneers/tree/73b3b45d0d86a5222daa6ae2d23ab7ca0dec087a/Pixel%20Pioneers) 
+download github file [./Pixel Pioneers ](https://github.com/samotgameing/Pixel-Pioneers/tree/73b3b45d0d86a5222daa6ae2d23ab7ca0dec087a/Pixel%20Pioneers)   
 load bash terminal window   
 cd in to ./Pixel Pioneers  
 run clang -o game game.c subgame.c or gcc -o game game.c subgame.c  
