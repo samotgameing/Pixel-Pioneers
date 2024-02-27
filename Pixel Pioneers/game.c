@@ -1,23 +1,24 @@
-//MADE BY SAMOT
+// MADE BY SAMOT
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <stdbool.h>
 #include "game.h"
+#include <math.h>
 
 // set Global variables
 int gridsize_x = 10;
 int gridsize_y = 21;
-int startx = 4;
-int starty = 10;
+int startx = 5;
+int starty = 0;
 int debug = 0;
 int portalpositioncheck = 1;
 
 int main(int argc, char *argv[])
 {
     time_t t;
-    srand((unsigned) time(&t));
+    srand((unsigned)time(&t));
     if (argc == 2 && strcmp(argv[1], "debug") == 0)
     {
         debug = debug + 1;
@@ -93,12 +94,15 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
     char cell_buffer[50];
     char line_buffer[1000];
     static int q = 0;
-    char* cell_icon;
+    char *cell_icon;
     int cell_colour;
+    static Point enemy= {7, 7};
+    enemy = enemy_movement(player, enemy);
     // for x in the grid
     for (int x = 0; x < gridsize_x; x++)
     {
         strcpy(&line_buffer[0], "");
+        strcat(&line_buffer[0], "|");
         // for y in the grid
         for (int y = 0; y < gridsize_y; y++)
         {
@@ -113,7 +117,7 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
                 // Print a grass symbol with a specific color
                 // If debug mode is on and the point is not a tree
                 cell_colour = grass_colour;
-                if (debug != 0 )
+                if (debug != 0)
                 {
                     cell_icon = ".";
                 }
@@ -128,12 +132,12 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
                 cell_icon = "*";
                 cell_colour = grass_colour;
                 // if player is on # then stop #
-                if (player.x == 7 && player.y == 7 && q < 1)
+                if (player.x == enemy.x && player.y == enemy.y && q < 1)
                 {
                     q = q + 1;
                 }
             }
-            else if (x == 7 && y == 7 && q != 1 && newcheck.spawnenemy)
+            else if (x == enemy.x && y == enemy.y && q != 1 && newcheck.spawnenemy)
             {
                 cell_icon = "#";
                 cell_colour = grass_colour;
@@ -146,8 +150,9 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
             print_colour_buffer(cell_icon, cell_colour, &cell_buffer[0]);
             strcat(&line_buffer[0], &cell_buffer[0]);
         }
+        strcat(&line_buffer[0], "|");
         strcat(&line_buffer[0], "\n");
-        //print_colour(cell_icon,cell_colour);
+        // print_colour(cell_icon,cell_colour);
         printf(&line_buffer[0]);
     }
     // debug view
@@ -188,32 +193,32 @@ Point get_input(World *worldarray)
         printf("wasd: ");
         wasd = getchar();
         int ch;
-        while ((ch = getchar()) != '\n' && ch != EOF);
+        while ((ch = getchar()) != '\n' && ch != EOF)
+            ;
         switch (wasd)
         {
-            case 'w':
-                x = x - 1;
-                break;
-            case 'a':
-                y = y - 1;
-                break;
-            case 's':
-                x = x + 1;
-                break;
-            case 'd':
-                y = y + 1;
-                break;
-            case 'e':
-                // set end state to 1
-                end_state(1);
-                Point endInput;
-                endInput.x = -1;
-                endInput.y = -1;
-                printf("\033[2J");
-                return endInput;
+        case 'w':
+            x = x - 1;
+            break;
+        case 'a':
+            y = y - 1;
+            break;
+        case 's':
+            x = x + 1;
+            break;
+        case 'd':
+            y = y + 1;
+            break;
+        case 'e':
+            // set end state to 1
+            end_state(1);
+            Point endInput;
+            endInput.x = -1;
+            endInput.y = -1;
+            printf("\033[2J");
+            return endInput;
         }
-    }
-    while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd' && wasd != 'e');
+    } while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd' && wasd != 'e');
     if (is_colliding(x, y, worldarray, 3))
     {
         change_world(switch_position(0));
@@ -324,44 +329,44 @@ bool switch_portal_position(int x, int y, int i)
 {
     switch (i)
     {
-        case 1:
-            if (x == (gridsize_x / 2) && y == (gridsize_y - 1))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        case 2:
-            if (x == (gridsize_x / 2) && y == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        case 3:
-            if (x == 0 && y == (gridsize_y / 2))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        case 4:
-            if (x == gridsize_x && y == (gridsize_y / 2))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        default:
+    case 1:
+        if (x == (gridsize_x / 2) && y == (gridsize_y - 1))
+        {
+            return true;
+        }
+        else
+        {
             return false;
+        }
+    case 2:
+        if (x == (gridsize_x / 2) && y == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    case 3:
+        if (x == 0 && y == (gridsize_y / 2))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    case 4:
+        if (x == gridsize_x && y == (gridsize_y / 2))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    default:
+        return false;
     }
 }
 void static_collision_update(Point *tree, World *worldarray, Checks newcheck, int switchportalposition)
@@ -376,7 +381,7 @@ void static_collision_update(Point *tree, World *worldarray, Checks newcheck, in
             {
                 set_collision_array(x, y, 2, worldarray);
             }
-            else if (switch_portal_position(x, y, switchportalposition) && newcheck.spawn )
+            else if (switch_portal_position(x, y, switchportalposition) && newcheck.spawn)
             {
                 set_collision_array(x, y, 3, worldarray);
             }
@@ -387,11 +392,11 @@ void static_collision_update(Point *tree, World *worldarray, Checks newcheck, in
                 {
                     not_tree = !is_Tree_Point(x, y, worldarray);
                 }
-                if (debug != 0 && not_tree )
+                if (debug != 0 && not_tree)
                 {
                     set_collision_array(x, y, 1, worldarray);
                 }
-                else if (not_tree )
+                else if (not_tree)
                 {
                     set_collision_array(x, y, 1, worldarray);
                 }
@@ -412,14 +417,14 @@ void dynamic_collision_update(Point player, World *worldarray, Checks newcheck)
             {
                 q = q + 1;
             }
-            if (x == 7 && y == 7 && q != 1 &&newcheck.spawnenemy )
+            if (x == 7 && y == 7 && q != 1 && newcheck.spawnenemy)
             {
                 set_collision_array(x, y, 1, worldarray);
             }
         }
     }
 }
-void print_colour_buffer(char *text, int colour, char* cellbuffer)
+void print_colour_buffer(char *text, int colour, char *cellbuffer)
 {
     sprintf(cellbuffer, "\e[48;5;%dm%s\e[0m", colour, text);
 }
@@ -430,4 +435,33 @@ Point *new_tree()
     // set treearray to 0
     memset(tree, 0, (tree_num * 10) * sizeof(Point));
     return tree;
+}
+Point enemy_movement(Point player, Point enemy)
+{
+    double bearing_to_player = (atan2(enemy.y - player.y, enemy.x - player.x) * (180.0 / 3.14159265358979323846));
+    if (bearing_to_player < 0) 
+    {
+    bearing_to_player += 360;
+    }
+    if (bearing_to_player >= 0 &&bearing_to_player <= 90)
+    {
+        enemy.x = enemy.x - 1;
+    }
+    else if (bearing_to_player >= 90 &&bearing_to_player <= 180)
+    {
+        enemy.y = enemy.y - 1;
+    }
+    else if (bearing_to_player >= 180 &&bearing_to_player <= 240)
+    {
+        enemy.x = enemy.x + 1;
+    }
+    else if (bearing_to_player >= 240 &&bearing_to_player <= 360)
+    {
+        enemy.y = enemy.y + 1;
+    }
+    else
+    {
+        printf("error: enemy_movement(): calculation error\n");
+    }
+    return enemy;
 }
