@@ -150,7 +150,6 @@ bool is_colliding(int x, int y, World *worldarray, int check)
     if (i < arraycheck && x < gridsize_x && y < gridsize_y)
     {
         // Getting the address of the cell in the worldarray
-        int worldcell = worldarray[i].collision;
         if (worldarray[i].collision == check)
         {
             return true;
@@ -174,7 +173,7 @@ bool is_colliding(int x, int y, World *worldarray, int check)
 // return collision;
 //}
 //              ^^^^Legacy^^^^
-World *collision_array()
+World *collision_array(void)
 {
     // --Function to allocate memory for the worldarray--
     // Allocating memory for gridsize_y * gridsize_x, size of struct integers and returning the pointer

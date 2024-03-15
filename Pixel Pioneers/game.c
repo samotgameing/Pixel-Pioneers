@@ -153,7 +153,7 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
         strcat(&line_buffer[0], "|");
         strcat(&line_buffer[0], "\n");
         // print_colour(cell_icon,cell_colour);
-        printf(&line_buffer[0]);
+        printf("%s", &line_buffer[0]);
     }
     // debug view
     if (debug != 0)
@@ -428,7 +428,7 @@ void print_colour_buffer(char *text, int colour, char *cellbuffer)
 {
     sprintf(cellbuffer, "\e[48;5;%dm%s\e[0m", colour, text);
 }
-Point *new_tree()
+Point *new_tree(void)
 {
     // Allocate memory for the tree
     Point *tree = malloc((tree_num * 10) * sizeof(Point));
@@ -441,7 +441,7 @@ Point enemy_movement(Point player, Point enemy)
     double bearing_to_player = (atan2(enemy.y - player.y, enemy.x - player.x) * (180.0 / 3.14159265358979323846));
     if (bearing_to_player < 0) 
     {
-        bearing_to_player += 360;
+    bearing_to_player += 360;
     }
     if (bearing_to_player >= 0 &&bearing_to_player <= 90)
     {

@@ -67,7 +67,7 @@ bool is_colliding(int x, int y, World *worldarray, int check);
 //Point *makecollision(int x, int y);
 //        ****Legacy****
 
-World *collision_array();
+World *collision_array(void);
 // makes a malloc array for the world and memsets the malloc to 0
 
 int set_collision_array(int x, int y, int setarray, World *worldarray);
@@ -112,11 +112,14 @@ void dynamic_collision_update(Point player,World *worldarray, Checks newcheck);
 void print_colour_buffer(char *text, int colour, char* cellbuffer);
 // a printf for a char* and in a set colour
 
-Point *new_tree();
+Point *new_tree(void);
 // makes a malloc array for the trees and memsets the malloc to 0
 
 Point enemy_movement(Point player, Point enemy);
 // The function enemy_movement calculates the bearing from the enemy to the player and moves the enemy one step closer to the player based on that bearing.
+
+leveldata levels();
+// handles level logic
 
 //^^^game.c^^^
 #endif
