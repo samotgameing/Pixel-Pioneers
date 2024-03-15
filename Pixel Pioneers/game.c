@@ -10,10 +10,11 @@
 // set Global variables
 int gridsize_x = 10;
 int gridsize_y = 21;
-int startx = 5;
-int starty = 0;
+int startx = 4;
+int starty = 10;
 int debug = 0;
-int portalpositioncheck = 1;
+// int portalpositioncheck = 1;
+int currentlevel = 1;
 
 int main(int argc, char *argv[])
 {
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
     // Generate a random x and y coordinate within the grid
     if (random.x == 0 && random.y == 0)
     {
-        random = make_random(gridsize_x, gridsize_y);
+        random = random_grid_point(gridsize_x, gridsize_y);
     }
     World *worldarray = collision_array();
     Point *tree = new_tree();
@@ -55,15 +56,32 @@ int main(int argc, char *argv[])
         Point input = get_input(worldarray);
         if (change_world(0))
         {
-            portalpositioncheck = switch_position(0);
+            //portalpositioncheck = switch_position(0);
             worldarray = new_world(worldarray);
-            newcheck.spawntree = true;
-            newcheck.spawnenemy = true;
-            newcheck.spawn = true;
+            leveldata level = levels();
+            newcheck.spawntree = level.tree.spawn;
+            newcheck.spawnenemy = level.spawnenemy;
+            newcheck.spawn = level.spawn;
+            newcheck.spawnstart = false;
             // if (newcheck.spawntree){tree = make_tree(random, worldarray);}
             if (newcheck.spawntree)
             {
-                tree = make_tree(make_random(gridsize_x, gridsize_y), worldarray, tree);
+                newcheck.newworld = true;
+                if (level.tree.random)
+                {
+                    tree = make_tree(random_grid_point(gridsize_x, gridsize_y), worldarray, tree);
+                }
+                else if(level.tree.x != 0 | level.tree.y != 0)
+                {
+                    Point newtree_xy;
+                    newtree_xy.x = level.tree.x;
+                    newtree_xy.y = level.tree.y;
+                    tree = make_tree(newtree_xy, worldarray, tree);
+                }
+                else
+                {
+                    printf("error: game.c main(): No tree \n");
+                }
             }
             static_collision_update(tree, worldarray, newcheck, switchportalposition);
             change_world(2);
@@ -72,6 +90,7 @@ int main(int argc, char *argv[])
         Point player = make_player(input.x, input.y);
         grid_render(player, tree, worldarray, newcheck, switchportalposition);
         dynamic_collision_update(player, worldarray, newcheck);
+        newcheck.newworld = false;
     }
     // ending sequence
     make_ending();
@@ -93,9 +112,13 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
 {
     char cell_buffer[50];
     char line_buffer[1000];
-    static int q = 0;
+    static int enemycounter = 0;
     char *cell_icon;
     int cell_colour;
+    if (newcheck.newworld)
+    {
+        enemycounter = 0;
+    }
     static Point enemy= {7, 7};
     enemy = enemy_movement(player, enemy);
     // for x in the grid
@@ -132,12 +155,12 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
                 cell_icon = "*";
                 cell_colour = grass_colour;
                 // if player is on # then stop #
-                if (player.x == enemy.x && player.y == enemy.y && q < 1)
+                if (player.x == enemy.x && player.y == enemy.y && enemycounter < 1)
                 {
-                    q = q + 1;
+                    enemycounter = enemycounter + 1;
                 }
             }
-            else if (x == enemy.x && y == enemy.y && q != 1 && newcheck.spawnenemy)
+            else if (x == enemy.x && y == enemy.y && enemycounter != 1 && newcheck.spawnenemy)
             {
                 cell_icon = "#";
                 cell_colour = grass_colour;
@@ -176,12 +199,12 @@ Point get_input(World *worldarray)
     static int x;
     static int y;
     // load start state
-    static int q = 0;
-    if (q != 1)
+    static int enemycounter = 0;
+    if (enemycounter != 1)
     {
         x = startx;
         y = starty;
-        q++;
+        enemycounter++;
     }
     // save xy for collision
     int y_save = y;
@@ -221,15 +244,16 @@ Point get_input(World *worldarray)
     } while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd' && wasd != 'e');
     if (is_colliding(x, y, worldarray, 3))
     {
-        change_world(switch_position(0));
-        if (switch_position(0) == 1)
+        // THIS FUCKING CODE IS SO FUCKING STUPID WHY DID I MAKE THIS
+        change_world(1);
+        /*if (switch_position(0) == 1)
         {
             switch_position(2);
         }
         else if (switch_position(0) == 2)
         {
             switch_position(1);
-        }
+        }*/
         // load xy in to input
         Point input;
         x = 5;
@@ -286,19 +310,19 @@ Point *make_tree(Point random, World *worldarray, Point *tree)
     tree[0].x = x; // root
     tree[0].y = y;
 
-    tree[1].x = x - 1; // trunk 1
+    tree[1].x = x - 1; 
     tree[1].y = y;
 
-    tree[2].x = x - 2; // trunk 2
+    tree[2].x = x - 2; 
     tree[2].y = y;
 
-    tree[3].x = x - 1; // branch 1
+    tree[3].x = x - 1; 
     tree[3].y = y - 1;
 
-    tree[4].x = x - 1; // branch 2
+    tree[4].x = x - 1; 
     tree[4].y = y + 1;
 
-    tree[5].x = x - 3; // trunk 3
+    tree[5].x = x - 3; 
     tree[5].y = y;
 
     tree[6].x = x - 1;
@@ -365,9 +389,8 @@ bool switch_portal_position(int x, int y, int i)
         {
             return false;
         }
-    default:
-        return false;
     }
+    return false;
 }
 void static_collision_update(Point *tree, World *worldarray, Checks newcheck, int switchportalposition)
 {
@@ -406,18 +429,18 @@ void static_collision_update(Point *tree, World *worldarray, Checks newcheck, in
 }
 void dynamic_collision_update(Point player, World *worldarray, Checks newcheck)
 {
-    static int q = 0;
+    static int enemycounter = 0;
     // for x in the grid
     for (int x = 0; x < gridsize_x; x++)
     {
         // for y in the grid
         for (int y = 0; y < gridsize_y; y++)
         {
-            if (player.x == 7 && player.y == 7 && q < 1)
+            if (player.x == 7 && player.y == 7 && enemycounter < 1)
             {
-                q = q + 1;
+                enemycounter = enemycounter + 1;
             }
-            if (x == 7 && y == 7 && q != 1 && newcheck.spawnenemy)
+            if (x == 7 && y == 7 && enemycounter != 1 && newcheck.spawnenemy)
             {
                 set_collision_array(x, y, 1, worldarray);
             }
@@ -464,4 +487,56 @@ Point enemy_movement(Point player, Point enemy)
         printf("error: enemy_movement(): calculation error\n");
     }
     return enemy;
+}
+leveldata levels(void)
+{
+    leveldata level;
+    if (currentlevel < 6)
+    {
+        currentlevel++;
+    }
+    level.tree.spawn = false;
+    level.spawnenemy = false;
+    level.spawn = true;
+    level.tree.x = 0;
+    level.tree.y = 0;
+    level.tree.random = false;
+    switch (currentlevel)
+    {
+        case 1:
+            printf("error: game.c levels(): how did you get here? ");
+            break;
+        case 2:
+            level.tree.spawn = true;
+            level.spawnenemy = true;
+            level.tree.x = 9;
+            level.tree.y = 5;
+            break;
+        case 3:
+            level.tree.spawn = true;
+            level.spawnenemy = true;
+            level.tree.x = 8;
+            level.tree.y = 5;
+            break;
+        case 4:
+            level.tree.spawn = false;
+            level.spawnenemy = true;
+            level.tree.x = 7;
+            level.tree.y = 5;
+            break;
+        case 5:
+            level.tree.spawn = true;
+            level.spawnenemy = false;
+            level.tree.random = true;
+            break;
+        case 6:
+            level.tree.spawn = false;
+            level.spawnenemy = true;
+            level.spawn = false;
+            break;
+        default:
+            printf("error: game.c levels(): No level ");
+            break;
+    }
+    return level;
 }

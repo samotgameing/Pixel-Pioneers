@@ -1,11 +1,16 @@
 //MADE BY SAMOT
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <stdbool.h>
 #include "game.h"
 
+void clear_buffer(void)
+{
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 int make_start(void)
 {
     printf("hello and welcome\ndo you want to play\n");
@@ -48,7 +53,7 @@ void make_ending(void)
            "       |___/                     |______|             \n");
     printf("\n");
 }
-Point make_random(int gridsize_x, int gridsize_y)
+Point random_grid_point(int gridsize_x, int gridsize_y)
 {
     int random_x;
     int random_y;
@@ -60,7 +65,7 @@ Point make_random(int gridsize_x, int gridsize_y)
     random.y = random_y;
     return random;
 }
-int switch_position(int n)
+/*int switch_position(int n)
 {
     static int x = 1;
     if (n == 1)
@@ -72,7 +77,7 @@ int switch_position(int n)
         x = 2;
     }
     return x;
-}
+}*/
 /*bool collision_update_rate(bool i)
 {
     // Function to control an update rate
@@ -134,9 +139,9 @@ bool is_Tree_Point(int x, int y, World *worldarray)
     if (i < arraycheck)
     {
         // return the address of the cell in the worldarray
-        return worldarray[i].istree;;
+        return worldarray[i].istree;
     }
-    printf("error: arraymax_I: %i\n", i);
+    printf("error: subgame.c is_Tree_Point(): arraymax_I: %i\n", i);
     return false;
 }
 bool is_colliding(int x, int y, World *worldarray, int check)
@@ -156,7 +161,7 @@ bool is_colliding(int x, int y, World *worldarray, int check)
         }
         return false;
     }
-    printf(" error: arraymax_I: %i\n", i);
+    printf("error: subgame.c is_colliding(): arraymax_I: %i\n", i);
     return false;
 }
 //              ****Legacy****
@@ -185,7 +190,7 @@ int set_collision_array(int x, int y, int setarray, World *worldarray)
 {
     if (worldarray == NULL)
     {
-        printf(" error: array is NULL \n");
+        printf(" error: subgame.c set_collision_array(): array is NULL \n");
         return -1;
     }
     int arraycheck = gridsize_y * gridsize_x;
@@ -203,7 +208,7 @@ int set_collision_array(int x, int y, int setarray, World *worldarray)
     }
     else
     {
-        printf(" error: arraymax_I: %i \n", i);
+        printf("error: subgame.c set_collision_array(): arraymax_I: %i\n", i);
         return -1;
     }
 }
@@ -211,7 +216,7 @@ void set_Tree_array(int x, int y, World *worldarray)
 {
     if (worldarray == NULL)
     {
-        printf(" error: array is NULL \n");
+        printf(" error: subgame.c set_Tree_array(): array is NULL \n");
         return;
     }
     int arraycheck = gridsize_y * gridsize_x;
@@ -227,6 +232,6 @@ void set_Tree_array(int x, int y, World *worldarray)
     }
     else
     {
-        printf("error: arraymax_I: %i\n", i);
+        printf("error: subgame.c set_Tree_array(): arraymax_I: %i\n", i);
     }
 }

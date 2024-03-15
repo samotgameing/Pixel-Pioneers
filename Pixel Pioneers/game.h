@@ -17,12 +17,27 @@ typedef struct
     bool spawn;
     bool spawnenemy;
     bool spawntree;
+    bool spawnstart;
+    bool newworld;
 } Checks;
 typedef struct
 {
     char* cell_icon;
     int cell_colour;
 } cell;
+typedef struct
+{
+    int x;
+    int y;
+    bool spawn;
+    bool random;
+} Tree;
+typedef struct
+{
+    bool spawnenemy;
+    bool spawn;
+    Tree tree;
+ } leveldata;
 
 // defines
 #define grass_colour 28
@@ -40,17 +55,21 @@ extern int portalpositioncheck;
 // !!! all functions !!!
 
 //---subgame.c---
+void clear_buffer(void);
+// clear the input buffer
+
 int make_start(void);
 // prompt user to start and prints startscreen
 
 void make_ending(void);
 // prints endscreen
 
-Point make_random(int gridsize_x,int gridsize_y);
+Point random_grid_point(int gridsize_x,int gridsize_y);
 // returns a random x,y based of gridsize
 
-int switch_position(int n);
+//int switch_position(int n);
 // global toggle switch for switching of the portal position
+//        ****Legacy****
 
 //bool collision_update_rate(bool i)
 //        ****Legacy****
@@ -118,7 +137,7 @@ Point *new_tree(void);
 Point enemy_movement(Point player, Point enemy);
 // The function enemy_movement calculates the bearing from the enemy to the player and moves the enemy one step closer to the player based on that bearing.
 
-leveldata levels();
+leveldata levels(void);
 // handles level logic
 
 //^^^game.c^^^
