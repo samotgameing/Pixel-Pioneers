@@ -441,7 +441,7 @@ Point enemy_movement(Point player, Point enemy)
     double bearing_to_player = (atan2(enemy.y - player.y, enemy.x - player.x) * (180.0 / 3.14159265358979323846));
     if (bearing_to_player < 0) 
     {
-    bearing_to_player += 360;
+        bearing_to_player += 360;
     }
     if (bearing_to_player >= 0 &&bearing_to_player <= 90)
     {
