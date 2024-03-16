@@ -113,14 +113,16 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
     char cell_buffer[50];
     char line_buffer[1000];
     static int enemycounter = 0;
+    static Point enemy;
     char *cell_icon;
     int cell_colour;
     if (newcheck.newworld)
     {
         enemycounter = 0;
+        enemy.x = 7;
+        enemy.y = 7;
     }
-    static Point enemy= {7, 7};
-    enemy = enemy_movement(player, enemy);
+    enemy = enemy_movement(player, enemy, worldarray);
     // for x in the grid
     for (int x = 0; x < gridsize_x; x++)
     {
@@ -459,8 +461,9 @@ Point *new_tree(void)
     memset(tree, 0, (tree_num * 10) * sizeof(Point));
     return tree;
 }
-Point enemy_movement(Point player, Point enemy)
+Point enemy_movement(Point player, Point enemy, World *worldarray)
 {
+    Point save_enemy = enemy;
     double bearing_to_player = (atan2(enemy.y - player.y, enemy.x - player.x) * (180.0 / 3.14159265358979323846));
     if (bearing_to_player < 0) 
     {
@@ -486,7 +489,23 @@ Point enemy_movement(Point player, Point enemy)
     {
         printf("error: enemy_movement(): calculation error\n");
     }
-    return enemy;
+    if(is_colliding(enemy.x, enemy.y, worldarray, 2))
+    {
+        if(!is_colliding((save_enemy.x - 1), save_enemy.y, worldarray, 2))
+        {
+            save_enemy.x - 1;
+            return save_enemy;
+        }
+        else if(!is_colliding((save_enemy.x + 1), save_enemy.y, worldarray, 2))
+        {
+            save_enemy.x + 1;
+            return save_enemy;
+        }
+        else
+            return save_enemy;
+    }
+    else 
+        return enemy;
 }
 leveldata levels(void)
 {

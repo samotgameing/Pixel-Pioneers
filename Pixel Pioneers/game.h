@@ -134,7 +134,7 @@ void print_colour_buffer(char *text, int colour, char* cellbuffer);
 Point *new_tree(void);
 // makes a malloc array for the trees and memsets the malloc to 0
 
-Point enemy_movement(Point player, Point enemy);
+Point enemy_movement(Point player, Point enemy, World *worldarray);
 // The function enemy_movement calculates the bearing from the enemy to the player and moves the enemy one step closer to the player based on that bearing.
 
 leveldata levels(void);
