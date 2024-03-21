@@ -15,10 +15,10 @@ int starty = 10;
 int debug = 0;
 // int portalpositioncheck = 1;
 int currentlevel = 1;
+time_t t;
 
 int main(int argc, char *argv[])
 {
-    time_t t;
     srand((unsigned)time(&t));
     if (argc == 2 && strcmp(argv[1], "debug") == 0)
     {
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
         // make world and move player
         Point player = make_player(input.x, input.y);
         grid_render(player, tree, worldarray, newcheck, switchportalposition);
-        dynamic_collision_update(player, worldarray, newcheck);
+        //dynamic_collision_update(player, worldarray, newcheck);
         newcheck.newworld = false;
     }
     // ending sequence
@@ -162,7 +162,7 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
                     enemycounter = enemycounter + 1;
                 }
             }
-            else if (x == enemy.x && y == enemy.y && enemycounter != 1 && newcheck.spawnenemy)
+            else if (x == enemy.x && y == enemy.y && enemycounter < 1 && newcheck.spawnenemy)
             {
                 cell_icon = "#";
                 cell_colour = grass_colour;
@@ -468,16 +468,18 @@ Point enemy_movement(Point player, Point enemy, World *worldarray)
     {
         if(!is_colliding((save_enemy.x - 1), save_enemy.y, worldarray, 2))
         {
-            save_enemy.x - 1;
+            save_enemy.x = save_enemy.x - 1;
             return save_enemy;
         }
         else if(!is_colliding((save_enemy.x + 1), save_enemy.y, worldarray, 2))
         {
-            save_enemy.x + 1;
+            save_enemy.x = save_enemy.x + 1;
             return save_enemy;
         }
         else
+        {
             return save_enemy;
+        }
     }
     else 
         return enemy;

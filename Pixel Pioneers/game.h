@@ -125,8 +125,9 @@ bool switch_portal_position(int x, int y, int i);
 void static_collision_update(Point *tree, World *worldarray, Checks newcheck, int switchportalposition);
 // sets world.collision with all static collision objects
 
-void dynamic_collision_update(Point player,World *worldarray, Checks newcheck);
+//void dynamic_collision_update(Point player,World *worldarray, Checks newcheck);
 // sets world.collision with all dynamic collision objects
+//            ***Needs updating***
 
 void print_colour_buffer(char *text, int colour, char* cellbuffer);
 // a printf for a char* and in a set colour

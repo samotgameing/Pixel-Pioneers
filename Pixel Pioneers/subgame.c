@@ -29,10 +29,26 @@ int make_start(void)
                "\n | |__) |__  _____| | | |__) |  ___  _ __   ___  ___ _ __ ___ "
                "\n |  ___/ \\ \\/ / _ \\ | |  ___/ |/ _ \\| '_ \\ / _ \\/ _ \\ '__/ __|"
                "\n | |   | |>  <  __/ | | |   | | (_) | | | |  __/  __/ |  \\__ \\"
-               "\n |_|   |_/_/\\_\\___|_| |_|   |_|\\___/|_| |_|\\___|\\___|_|  |___/\n\n");
-        printf("Press ENTER to start the game...\n");
+               "\n |_|   |_/_/\\_\\___|_| |_|   |_|\\___/|_| |_|\\___|\\___|_|  |___/\n");
+        printf(" Loading...\n");
+        /*printf("Press ENTER to start the game...\n");
         char buf[128];
-        fgets (buf, sizeof buf, stdin);
+        fgets (buf, sizeof buf, stdin);*/
+        time_t seconds;
+        seconds = time(NULL);
+        if (seconds == -1)
+        {
+            printf("AAAAaa FUCK error: subgame.c make_start(): Time error ");
+            return startstate;
+        }
+        time_t timesave = seconds;
+        long wait_time = 2;
+        while (seconds < (timesave + wait_time))
+        {
+            seconds = time(NULL);
+            //printf("%lo and %lo",timesave,seconds);
+        }
+        printf("\033[2J");
         return startstate + 1;
     }
     else
