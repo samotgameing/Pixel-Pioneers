@@ -309,35 +309,10 @@ Point *make_tree(Point random, World *worldarray, Point *tree)
     int x = random.x;
     int y = random.y;
     // Function to create a tree structure in the worldarray
-    tree[0].x = x; // root
-    tree[0].y = y;
-
-    tree[1].x = x - 1; 
-    tree[1].y = y;
-
-    tree[2].x = x - 2; 
-    tree[2].y = y;
-
-    tree[3].x = x - 1; 
-    tree[3].y = y - 1;
-
-    tree[4].x = x - 1; 
-    tree[4].y = y + 1;
-
-    tree[5].x = x - 3; 
-    tree[5].y = y;
-
-    tree[6].x = x - 1;
-    tree[6].y = y - 2;
-
-    tree[7].x = x - 1;
-    tree[7].y = y + 2;
-
-    tree[8].x = x - 2;
-    tree[8].y = y + 1;
-
-    tree[9].x = x - 2;
-    tree[9].y = y - 1;
+    tree[0].x = x;     tree[0].y = y;     tree[1].x = x - 1; tree[1].y = y;     tree[2].x = x - 2; 
+    tree[2].y = y;     tree[3].x = x - 1; tree[3].y = y - 1; tree[4].x = x - 1; tree[4].y = y + 1;
+    tree[5].x = x - 3; tree[5].y = y;     tree[6].x = x - 1; tree[6].y = y - 2; tree[7].x = x - 1;
+    tree[7].y = y + 2; tree[8].x = x - 2; tree[8].y = y + 1; tree[9].x = x - 2; tree[9].y = y - 1;
     // Loop through the tree array and set each point in the worldarray
     for (int i = 0; i <= (tree_num * 10) - 1; i++)
     {
