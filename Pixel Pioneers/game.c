@@ -4,8 +4,8 @@
 #include <string.h>
 #include <time.h>
 #include <stdbool.h>
-#include "game.h"
 #include <math.h>
+#include "game.h"
 
 // set Global variables
 int gridsize_x = 10;
