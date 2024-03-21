@@ -8,5 +8,8 @@ maybe do
 to do
     check portal logic
     add levels - done
-bug in tree
-    tree spawns too close to right wall
+bug 
+    -in tree
+        -tree spawns too close to  wall
+    -in getinput
+        -first input is ignore

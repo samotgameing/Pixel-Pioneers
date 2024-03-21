@@ -204,8 +204,11 @@ Point get_input(World *worldarray)
     static int enemycounter = 0;
     if (enemycounter != 1)
     {
+        /*
         x = startx;
         y = starty;
+        why do I need this still?
+        */
         enemycounter++;
     }
     // save xy for collision
@@ -218,8 +221,7 @@ Point get_input(World *worldarray)
         printf("wasd: ");
         wasd = getchar();
         int ch;
-        while ((ch = getchar()) != '\n' && ch != EOF)
-            ;
+        while ((ch = getchar()) != '\n' && ch != EOF);
         switch (wasd)
         {
         case 'w':
