@@ -1,3 +1,6 @@
 
 *.ilk
 *.pdb
+*.plist
+*.yml
+*.dSYM
