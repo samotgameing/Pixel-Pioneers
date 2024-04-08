@@ -177,15 +177,40 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
         }
         strcat(&line_buffer[0], "|");
         strcat(&line_buffer[0], "\n");
-        // print_colour(cell_icon,cell_colour);
         printf("%s", &line_buffer[0]);
+        
+        // print_colour(cell_icon,cell_colour);
+    }
+    int Health = 10;
+    char *Health_icon = " ";
+    char Health_buffer[100] = "";
+    char Health_line_buffer[200] = "";
+    int healthcounter = 0;
+    for (int i = 0; i < 10; i++)
+    {
+        if (healthcounter < Health)
+        {
+            print_colour_buffer_health(Health_icon, 196, &Health_buffer[0]);
+            healthcounter++;
+        }
+        else
+            print_colour_buffer_health(Health_icon, 231, &Health_buffer[0]);
+            healthcounter++;
+        if (strlen(Health_line_buffer) + strlen(Health_buffer) < sizeof(Health_line_buffer))
+        {
+            strcat(Health_line_buffer, Health_buffer);
+        }
     }
     // debug view
     if (debug != 0)
     {
         printf("x%i by y%i\n", gridsize_x, gridsize_y);
         printf("player: x%i by y%i\n", player.x, player.y);
+        printf("Health:%i%s", Health, &Health_line_buffer[0]);
     }
+    else
+        printf("Health:%s", &Health_line_buffer[0]);
+    printf("\n");
 }
 Point make_player(int x, int y)
 {
@@ -429,6 +454,10 @@ void dynamic_collision_update(Point player, World *worldarray, Checks newcheck)
 void print_colour_buffer(char *text, int colour, char *cellbuffer)
 {
     sprintf(cellbuffer, "\e[48;5;%dm%s\e[0m", colour, text);
+}
+void print_colour_buffer_health(char *text, int colour, char *healthbuffer)
+{
+    sprintf(healthbuffer, "\e[48;5;%dm%s\e[0m", colour, text);
 }
 Point *new_tree(void)
 {
