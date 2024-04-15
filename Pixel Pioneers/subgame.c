@@ -199,7 +199,10 @@ World *collision_array(void)
     // --Function to allocate memory for the worldarray--
     // Allocating memory for gridsize_y * gridsize_x, size of struct integers and returning the pointer
     World *worldarray = malloc(gridsize_y * gridsize_x * sizeof(World));
-    memset(worldarray, 0, gridsize_y * gridsize_x * sizeof(World));
+    if (worldarray != NULL)
+    {
+        memset(worldarray, 0, gridsize_y * gridsize_x * sizeof(World));
+    }
     return worldarray;
 }
 int set_collision_array(int x, int y, int setarray, World *worldarray)
