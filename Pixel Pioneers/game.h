@@ -132,8 +132,6 @@ void static_collision_update(Point *tree, World *worldarray, Checks newcheck, in
 void print_colour_buffer(char *text, int colour, char* cellbuffer);
 // a printf for a char* and in a set colour
 
-void print_colour_buffer_health(char *text, int colour, char *healthbuffer);
-
 Point *new_tree(void);
 // makes a malloc array for the trees and memsets the malloc to 0
 

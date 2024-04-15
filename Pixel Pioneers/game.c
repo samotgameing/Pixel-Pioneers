@@ -189,11 +189,11 @@ void grid_render(Point player, Point *tree, World *worldarray, Checks newcheck, 
     {
         if (i < Health)
         {
-            print_colour_buffer_health(Health_icon, 196, &Health_buffer[0]);
+            print_colour_buffer(Health_icon, 196, &Health_buffer[0]);
         }
         else
         {
-            print_colour_buffer_health(Health_icon, 231, &Health_buffer[0]);
+            print_colour_buffer(Health_icon, 231, &Health_buffer[0]);
         }
         if (strlen(Health_line_buffer) + strlen(Health_buffer) < sizeof(Health_line_buffer))
         {
@@ -228,11 +228,11 @@ Point get_input(World *worldarray)
     static int enemycounter = 0;
     if (enemycounter != 1)
     {
-        /*
+        
         x = startx;
         y = starty;
-        why do I need this still?
-        */
+        //why do I need this still? - answer We still do 
+        
         enemycounter++;
     }
     // save xy for collision
@@ -243,9 +243,9 @@ Point get_input(World *worldarray)
     do
     {
         printf("wasd: ");
-        wasd = getchar();
         int ch;
         while ((ch = getchar()) != '\n' && ch != EOF);
+        wasd = getchar();
         switch (wasd)
         {
         case 'w':
@@ -453,10 +453,6 @@ void dynamic_collision_update(Point player, World *worldarray, Checks newcheck)
 void print_colour_buffer(char *text, int colour, char *cellbuffer)
 {
     sprintf(cellbuffer, "\x1b[48;5;%dm%s\x1b[0m", colour, text);
-}
-void print_colour_buffer_health(char *text, int colour, char *healthbuffer)
-{
-    sprintf(healthbuffer, "\x1b[48;5;%dm%s\x1b[0m", colour, text);
 }
 Point *new_tree(void)
 {
