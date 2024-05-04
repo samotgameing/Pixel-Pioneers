@@ -10,8 +10,6 @@
 // set Global variables
 int gridsize_x = 10;
 int gridsize_y = 21;
-int startx = 4;
-int starty = 10;
 int debug = 0;
 // int portalpositioncheck = 1;
 int currentlevel = 1;
@@ -49,6 +47,8 @@ int main(int argc, char* argv[])
 	newcheck.spawn = true;
 	static_collision_update(tree, worldarray, newcheck, switchportalposition);
 	// load grid and player start xy
+	int startx = 4;
+	int starty = 10;
 	grid_render(make_player(startx, starty), tree, worldarray, newcheck, switchportalposition);
 	// check end_state if end_state = 1 break
 	while (end_state(0) != 1)
@@ -228,7 +228,8 @@ Point get_input(World* worldarray)
 	static int enemycounter = 0;
 	if (enemycounter != 1)
 	{
-
+		int startx = 4;
+		int starty = 10;
 		x = startx;
 		y = starty;
 		//why do I need this still? - answer We still do 
@@ -576,8 +577,6 @@ int Distance(Point player, Point enemy)
 bool castRay(Point grid, Point player, Point enemy)
 {
 	// I don't know if this works
-	Point player;
-	Point enemy;
 	double curX = enemy.x;
 	double curY = enemy.y;
 	double stepSize = 0.9;
