@@ -567,3 +567,34 @@ leveldata levels(void)
 	}
 	return level;
 }
+int Distance(Point player, Point enemy)
+{
+	int i;
+	i = sqrt((enemy.x - player.x) ^ 2 + (enemy.y - player.y) ^ 2);
+	return i;
+}
+bool castRay(Point grid, Point player, Point enemy)
+{
+	// I don't know if this works
+	Point player;
+	Point enemy;
+	double curX = enemy.x;
+	double curY = enemy.y;
+	double stepSize = 0.9;
+	double dirLen = sqrt(player.x * player.x + player.y * player.y);
+	double deltaX = (dirLen > 0) ? player.x / dirLen * stepSize : 0;
+	double deltaY = (dirLen > 0) ? player.y / dirLen * stepSize : 0;
+	bool rayhits[200];
+	if (dirLen > 0) {
+		while (curX > 0 && curX < gridsize_x && curY > 0 && curY < gridsize_y) {
+			int tileX = (int)curX;
+			int tileY = (int)curY;
+			int i;
+			i = tileY * gridsize_x + tileX;
+			rayhits[i] = true;
+			curX += deltaX;
+			curY += deltaY;
+		}
+	}
+	return rayhits;
+}

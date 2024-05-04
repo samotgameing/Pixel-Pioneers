@@ -141,5 +141,11 @@ Point enemy_movement(Point player, Point enemy, World* worldarray);
 leveldata levels(void);
 // handles level logic
 
+int Distance(Point player, Point enemy);
+// distance from Player to enemy
+
+bool castRay(Point grid, Point player, Point enemy);
+// raycast from enemy to player
+
 //^^^game.c^^^
 #endif
