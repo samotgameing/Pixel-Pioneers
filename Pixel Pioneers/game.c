@@ -40,6 +40,11 @@ int main(int argc, char* argv[])
 	}
 	World* worldarray = collision_array();
 	Point* tree = new_tree();
+	if (!tree) 
+	{
+        fprintf(stderr, "Memory allocation failed for tree.\n");
+        return 1;
+    }
 	tree = make_tree(random, worldarray, tree);
 	Checks newcheck;
 	newcheck.spawntree = true;
@@ -241,36 +246,21 @@ Point get_input(World* worldarray)
 	int x_save = x;
 	// get input wasd
 	char wasd;
-	do
+	Point input;
+	do 
 	{
-		printf("wasd: ");
-		int ch;
-		while ((ch = getchar()) != '\n' && ch != EOF);
-		wasd = getchar();
-		switch (wasd)
-		{
-		case 'w':
-			x = x - 1;
-			break;
-		case 'a':
-			y = y - 1;
-			break;
-		case 's':
-			x = x + 1;
-			break;
-		case 'd':
-			y = y + 1;
-			break;
-		case 'e':
-			// set end state to 1
-			end_state(1);
-			Point endInput;
-			endInput.x = -1;
-			endInput.y = -1;
-			printf("\033[2J");
-			return endInput;
-		}
-	} while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd' && wasd != 'e');
+        printf("wasd: ");
+        clear_buffer();
+        wasd = getchar();
+        switch (wasd) {
+            case 'w': x--; break;
+            case 'a': y--; break;
+            case 's': x++; break;
+            case 'd': y++; break;
+            case 'e': end_state(1); input = (Point){-1, -1}; return input;
+            default: continue;
+        }
+    } while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd' && wasd != 'e');
 	if (is_colliding(x, y, worldarray, 3))
 	{
 		// THIS FUCKING CODE IS SO FUCKING STUPID WHY DID I MAKE THIS
@@ -297,7 +287,6 @@ Point get_input(World* worldarray)
 	{
 		// if x and y != object in an array else load xy_save's
 		//  load xy in to input
-		Point input;
 		input.x = x;
 		input.y = y;
 		// return x and y of player
@@ -310,7 +299,7 @@ Point get_input(World* worldarray)
 		y = y_save;
 		x = x_save;
 		// load save xy in to Input
-		Point input;
+		
 		input.x = x_save;
 		input.y = y_save;
 		// return x and y in of player in Input
@@ -597,3 +586,43 @@ bool castRay(Point grid, Point player, Point enemy)
 	}
 	return rayhits;
 }
+
+bool castRay_v2(int gridsize_x, int gridsize_y, Point player, Point enemy, World* worldarray) 
+{
+   	int check = 2;
+
+    int curX = player.x;
+    int curY = player.y;
+    double stepSize = 0.9;
+
+    // Direction vector from player to enemy
+    int dirX = enemy.x - player.x;
+    int dirY = enemy.y - player.y;
+    double dirLen = sqrt(dirX * dirX + dirY * dirY);
+
+    // Normalize direction vector and scale by step size
+    double deltaX = (dirLen > 0) ? dirX / dirLen * stepSize : 0;
+    double deltaY = (dirLen > 0) ? dirY / dirLen * stepSize : 0;
+
+    // Traverse the grid
+    while (curX >= 0 && curX < gridsize_x && curY >= 0 && curY < gridsize_y) {
+        int tileX = curX;
+        int tileY = curY;
+
+        // Check if current tile is an obstacle
+        if (is_colliding(tileX, tileY, worldarray, check)) {
+            return false; // Ray hit an obstacle
+        }
+
+        // Check if the current tile is the enemy's tile
+        if (tileX == enemy.x && tileY == enemy.y) {
+            return true; // Ray hit the enemy
+        }
+
+        curX += (int)deltaX;
+        curY += (int)deltaY;
+    }
+
+    return false; // Ray did not hit the enemy within the grid bounds
+}
+

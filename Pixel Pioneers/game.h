@@ -38,6 +38,9 @@ typedef struct
 	bool spawn;
 	Tree tree;
 } leveldata;
+typedef struct {
+    double x, y;
+} double_Point;
 
 // defines
 #define grass_colour 28
@@ -145,6 +148,9 @@ int Distance(Point player, Point enemy);
 // distance from Player to enemy
 
 bool castRay(Point grid, Point player, Point enemy);
+// raycast from enemy to player
+
+bool castRay_v2(int gridsize_x, int gridsize_y, Point player, Point enemy, World* worldarray);
 // raycast from enemy to player
 
 //^^^game.c^^^
