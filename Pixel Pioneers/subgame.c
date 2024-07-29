@@ -30,7 +30,7 @@ int make_start(void)
                "\n |  ___/ \\ \\/ / _ \\ | |  ___/ |/ _ \\| '_ \\ / _ \\/ _ \\ '__/ __|"
                "\n | |   | |>  <  __/ | | |   | | (_) | | | |  __/  __/ |  \\__ \\"
                "\n |_|   |_/_/\\_\\___|_| |_|   |_|\\___/|_| |_|\\___|\\___|_|  |___/\n");
-        printf(" Loading...\n");
+        printf(" Loading.");
         /*printf("Press ENTER to start the game...\n");
         char buf[128];
         fgets (buf, sizeof buf, stdin);*/
@@ -45,9 +45,11 @@ int make_start(void)
         long wait_time = 2;
         while (seconds < (timesave + wait_time))
         {
+            printf(".");
             seconds = time(NULL);
             //printf("%lo and %lo",timesave,seconds);
         }
+        printf("\n");
         printf("\033[2J");
         return startstate + 1;
     }

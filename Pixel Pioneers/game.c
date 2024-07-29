@@ -274,10 +274,10 @@ Point get_input(World* worldarray)
 			switch_position(1);
 		}*/
 		// load xy in to input
-		Point input;
-		x = 5;
+		//x = 5;
+		x = gridsize_x / 2; // flag
 		y = 1;
-		input.x = x; // flag
+		input.x = x; 
 		input.y = y;
 		// return x and y of player
 		printf("\033[2J");
@@ -483,7 +483,7 @@ Point enemy_movement(Point player, Point enemy, World* worldarray)
 	}
 	else
 	{
-		printf("error: enemy_movement(): calculation error\n");
+		printf("error: game.c enemy_movement(): calculation error\n");
 	}
 	if (is_colliding(enemy.x, enemy.y, worldarray, 2))
 	{
