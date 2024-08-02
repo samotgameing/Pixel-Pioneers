@@ -591,8 +591,8 @@ bool castRay_v2(int gridsize_x, int gridsize_y, Point player, Point enemy, World
 {
    	int check = 2;
 
-    int curX = player.x;
-    int curY = player.y;
+    double curX = player.x;
+    double curY = player.y;
     double stepSize = 0.9;
 
     // Direction vector from player to enemy
@@ -606,8 +606,8 @@ bool castRay_v2(int gridsize_x, int gridsize_y, Point player, Point enemy, World
 
     // Traverse the grid
     while (curX >= 0 && curX < gridsize_x && curY >= 0 && curY < gridsize_y) {
-        int tileX = curX;
-        int tileY = curY;
+        int tileX = (int)curX;
+        int tileY = (int)curY;
 
         // Check if current tile is an obstacle
         if (is_colliding(tileX, tileY, worldarray, check)) {
@@ -619,8 +619,8 @@ bool castRay_v2(int gridsize_x, int gridsize_y, Point player, Point enemy, World
             return true; // Ray hit the enemy
         }
 
-        curX += (int)deltaX;
-        curY += (int)deltaY;
+        curX += deltaX;
+        curY += deltaY;
     }
 
     return false; // Ray did not hit the enemy within the grid bounds
