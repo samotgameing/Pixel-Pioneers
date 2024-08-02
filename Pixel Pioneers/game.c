@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include "game.h"
+#include "A*_pathfinding_algorithm.c"
 
 // set Global variables
 int gridsize_x = 10;
@@ -504,6 +505,23 @@ Point enemy_movement(Point player, Point enemy, World* worldarray)
 	}
 	else
 		return enemy;
+/*
+	Point start = {0, 0};
+    Point end = {7, 7};
+    Node* path = a_star(enemy, player, worldarray, gridWidth, gridHeight);
+
+	 if (path == NULL || path->parent == NULL) 
+	{
+    	Point invalid = {-1, -1}; // Return an invalid point if there's no path or the path is already at the destination
+    	printf("error: game.c enem_movement(): invalid point, no path or the path is already at the destination \n");;
+		return save_enemy;
+    }
+    while (path->parent->parent != NULL) 
+	{
+        path = path->parent;
+    }
+    return path->position;
+*/
 }
 leveldata levels(void)
 {
@@ -625,4 +643,3 @@ bool castRay_v2(int gridsize_x, int gridsize_y, Point player, Point enemy, World
 
     return false; // Ray did not hit the enemy within the grid bounds
 }
-
