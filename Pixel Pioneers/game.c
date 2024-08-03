@@ -125,8 +125,8 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 	// for x in the grid
 	for (int x = 0; x < gridsize_x; x++)
 	{
-		strcat(&line_buffer[0],"");
-		strcat(&line_buffer[0],"|");
+		strcat(&line_buffer[0], "");
+		strcat(&line_buffer[0], "|");
 		// for y in the grid
 		for (int y = 0; y < gridsize_y; y++)
 		{
@@ -438,7 +438,7 @@ void dynamic_collision_update(Point player, World* worldarray, Checks newcheck)
 */
 void print_colour_buffer(char* text, int colour, char* cellbuffer)
 {
-	sprintf_s(cellbuffer, sizeof(cellbuffer), "\x1b[48;5;%dm%s\x1b[0m", colour, text);
+	sprintf(cellbuffer, "\x1b[48;5;%dm%s\x1b[0m", colour, text);
 }
 Point* new_tree(void)
 {
