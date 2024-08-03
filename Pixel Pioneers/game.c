@@ -125,7 +125,7 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 	// for x in the grid
 	for (int x = 0; x < gridsize_x; x++)
 	{
-		strcat(&line_buffer[0], "");
+		strcpy(&line_buffer[0], "");
 		strcat(&line_buffer[0], "|");
 		// for y in the grid
 		for (int y = 0; y < gridsize_y; y++)
