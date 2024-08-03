@@ -139,6 +139,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Pixel Pioneers\Astar_pathfinding_algorithm.c" />
     <ClCompile Include="Pixel Pioneers\game.c" />
     <ClCompile Include="Pixel Pioneers\subgame.c" />
   </ItemGroup>

@@ -131,8 +131,8 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 	// for x in the grid
 	for (int x = 0; x < gridsize_x; x++)
 	{
-		strcpy(&line_buffer[0], "");
-		strcat(&line_buffer[0], "|");
+		strcat_s(&line_buffer[0],1000, "");
+		strcat_s(&line_buffer[0],1000, "|");
 		// for y in the grid
 		for (int y = 0; y < gridsize_y; y++)
 		{
@@ -178,10 +178,10 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 				cell_colour = portal_colour;
 			}
 			print_colour_buffer(cell_icon, cell_colour, &cell_buffer[0]);
-			strcat(&line_buffer[0], &cell_buffer[0]);
+			strcat_s(&line_buffer[0],1000, &cell_buffer[0]);
 		}
-		strcat(&line_buffer[0], "|");
-		strcat(&line_buffer[0], "\n");
+		strcat_s(&line_buffer[0],1000, "|");
+		strcat_s(&line_buffer[0],1000, "\n");
 		printf("%s", &line_buffer[0]);
 
 		// print_colour(cell_icon,cell_colour);
@@ -202,7 +202,7 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 		}
 		if (strlen(Health_line_buffer) + strlen(Health_buffer) < sizeof(Health_line_buffer))
 		{
-			strcat(Health_line_buffer, Health_buffer);
+			strcat_s(Health_line_buffer, sizeof(Health_line_buffer), Health_buffer);
 		}
 	}
 	// debug view
@@ -444,7 +444,7 @@ void dynamic_collision_update(Point player, World* worldarray, Checks newcheck)
 */
 void print_colour_buffer(char* text, int colour, char* cellbuffer)
 {
-	sprintf(cellbuffer, "\x1b[48;5;%dm%s\x1b[0m", colour, text);
+	sprintf_s(cellbuffer, sizeof(cellbuffer), "\x1b[48;5;%dm%s\x1b[0m", colour, text);
 }
 Point* new_tree(void)
 {

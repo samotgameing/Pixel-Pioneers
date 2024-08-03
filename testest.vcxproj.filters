@@ -26,6 +26,9 @@
     <ClCompile Include="Pixel Pioneers\subgame.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pixel Pioneers\Astar_pathfinding_algorithm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pixel Pioneers\game.h">

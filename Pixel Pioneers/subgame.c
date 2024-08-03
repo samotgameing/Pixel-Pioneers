@@ -19,7 +19,7 @@ int make_start(void)
     // prompt user to agree
     char input;
     printf("y/n ");
-    scanf("%c", &input);
+    scanf_s("%c", &input, 1);
     // Check whether user agreed
     if (input == 'y' || input == 'Y')
     {
