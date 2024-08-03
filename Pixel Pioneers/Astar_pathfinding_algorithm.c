@@ -1,7 +1,4 @@
-// A*_pathfinding_algorithm.c
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+// Astar_pathfinding_algorithm.c
 #include "game.h"
 
 typedef struct Node {

@@ -1,6 +1,12 @@
 //MADE BY SAMOT
 #ifndef game_h
 #define game_h
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <stdbool.h>
+#include <math.h>
 // structs
 typedef struct
 {

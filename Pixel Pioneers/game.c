@@ -1,10 +1,4 @@
 //MADE BY SAMOT
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <stdbool.h>
-#include <math.h>
 #include "game.h"
 
 // set Global variables
@@ -131,8 +125,8 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 	// for x in the grid
 	for (int x = 0; x < gridsize_x; x++)
 	{
-		strcat_s(&line_buffer[0],1000, "");
-		strcat_s(&line_buffer[0],1000, "|");
+		strcat(&line_buffer[0],"");
+		strcat(&line_buffer[0],"|");
 		// for y in the grid
 		for (int y = 0; y < gridsize_y; y++)
 		{
@@ -178,10 +172,10 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 				cell_colour = portal_colour;
 			}
 			print_colour_buffer(cell_icon, cell_colour, &cell_buffer[0]);
-			strcat_s(&line_buffer[0],1000, &cell_buffer[0]);
+			strcat(&line_buffer[0], &cell_buffer[0]);
 		}
-		strcat_s(&line_buffer[0],1000, "|");
-		strcat_s(&line_buffer[0],1000, "\n");
+		strcat(&line_buffer[0], "|");
+		strcat(&line_buffer[0], "\n");
 		printf("%s", &line_buffer[0]);
 
 		// print_colour(cell_icon,cell_colour);
@@ -202,7 +196,7 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 		}
 		if (strlen(Health_line_buffer) + strlen(Health_buffer) < sizeof(Health_line_buffer))
 		{
-			strcat_s(Health_line_buffer, sizeof(Health_line_buffer), Health_buffer);
+			strcat(Health_line_buffer, Health_buffer);
 		}
 	}
 	// debug view

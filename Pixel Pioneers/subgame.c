@@ -1,9 +1,4 @@
 //MADE BY SAMOT
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 #include "game.h"
 
 void clear_buffer(void)
@@ -19,7 +14,7 @@ int make_start(void)
     // prompt user to agree
     char input;
     printf("y/n ");
-    scanf_s("%c", &input, 1);
+    scanf("%c", &input);
     // Check whether user agreed
     if (input == 'y' || input == 'Y')
     {
