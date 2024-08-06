@@ -47,6 +47,13 @@ typedef struct
 typedef struct {
     double x, y;
 } double_Point;
+typedef struct
+{
+	int x;
+	int y;
+	bool life;
+} game_object;
+
 
 // defines
 #define grass_colour 28
@@ -110,6 +117,9 @@ void set_Tree_array(int x, int y, World* worldarray);
 void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, int switchportalposition);
 // renders a frames based of gridsize (note: handles all rendering)
 
+void make_health_bar(void);
+// renders the health bar
+
 Point make_player(int x, int y);
 // loads x,y in to and point and returns it
 
@@ -144,19 +154,19 @@ void print_colour_buffer(char* text, int colour, char* cellbuffer);
 Point* new_tree(void);
 // makes a malloc array for the trees and memsets the malloc to 0
 
-Point enemy_movement(Point player, Point enemy, World* worldarray);
+game_object enemy_movement(Point player, game_object enemy, World* worldarray);
 // The function enemy_movement calculates the bearing from the enemy to the player and moves the enemy one step closer to the player based on that bearing.
 
 leveldata levels(void);
 // handles level logic
 
-int Distance(Point player, Point enemy);
+int Distance(Point player, game_object enemy);
 // distance from Player to enemy
 
-bool castRay(Point grid, Point player, Point enemy);
+bool castRay(Point grid, Point player, game_object enemy);
 // raycast from enemy to player
 
-bool castRay_v2(int gridsize_x, int gridsize_y, Point player, Point enemy, World* worldarray);
+bool castRay_v2(int gridsize_x, int gridsize_y, Point player, game_object enemy, World* worldarray);
 // raycast from enemy to player
 
 //^^^game.c^^^

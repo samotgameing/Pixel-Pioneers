@@ -44,10 +44,10 @@ int main(int argc, char* argv[])
 	newcheck.spawntree = true;
 	newcheck.spawnenemy = true;
 	newcheck.spawn = true;
-	static_collision_update(tree, worldarray, newcheck, switchportalposition);
 	// load grid and player start xy
 	int startx = 4;
 	int starty = 10;
+	static_collision_update(tree, worldarray, newcheck, switchportalposition);
 	grid_render(make_player(startx, starty), tree, worldarray, newcheck, switchportalposition);
 	// check end_state if end_state = 1 break
 	while (end_state(0) != 1)
@@ -112,7 +112,7 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 	char cell_buffer[50];
 	char line_buffer[1000];
 	static int enemycounter = 0;
-	static Point enemy;
+	static game_object enemy;
 	char* cell_icon;
 	int cell_colour;
 	if (newcheck.newworld)
@@ -155,13 +155,8 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 				// print player *
 				cell_icon = "*";
 				cell_colour = grass_colour;
-				// if player is on # then stop #
-				if (player.x == enemy.x && player.y == enemy.y && enemycounter < 1)
-				{
-					enemycounter = enemycounter + 1;
-				}
 			}
-			else if (x == enemy.x && y == enemy.y && enemycounter < 1 && newcheck.spawnenemy)
+			else if (x == enemy.x && y == enemy.y && enemy.life == true && newcheck.spawnenemy)
 			{
 				cell_icon = "#";
 				cell_colour = grass_colour;
@@ -180,6 +175,17 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 
 		// print_colour(cell_icon,cell_colour);
 	}
+	make_health_bar;
+	// debug view
+	if (debug != 0)
+	{
+		printf("x%i by y%i\n", gridsize_x, gridsize_y);
+		printf("player: x%i by y%i\n", player.x, player.y);
+	}	
+	printf("\n");
+}
+void make_health_bar(void)
+{
 	int Health = 10;
 	char* Health_icon = " ";
 	char Health_buffer[100] = "";
@@ -199,20 +205,16 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 			strcat(Health_line_buffer, Health_buffer);
 		}
 	}
-	// debug view
 	if (debug != 0)
 	{
-		printf("x%i by y%i\n", gridsize_x, gridsize_y);
-		printf("player: x%i by y%i\n", player.x, player.y);
 		printf("Health:%i%s", Health, &Health_line_buffer[0]);
 	}
 	else
-		printf("Health:%s", &Health_line_buffer[0]);
-	printf("\n");
+	printf("Health:%s", &Health_line_buffer[0]);
 }
 Point make_player(int x, int y)
 {
-	// return a Player object with the given x and y coordinates
+	// return a Player with a Point struct with the given x and y coordinates
 	Point player;
 	player.x = x;
 	player.y = y;
@@ -397,19 +399,7 @@ void static_collision_update(Point* tree, World* worldarray, Checks newcheck, in
 			}
 			else
 			{
-				bool not_tree = true;
-				if (newcheck.spawntree)
-				{
-					not_tree = !is_Tree_Point(x, y, worldarray);
-				}
-				if (debug != 0 && not_tree)
-				{
-					set_collision_array(x, y, 1, worldarray);
-				}
-				else if (not_tree)
-				{
-					set_collision_array(x, y, 1, worldarray);
-				}
+				set_collision_array(x, y, 1, worldarray);
 			}
 		}
 	}
@@ -417,21 +407,13 @@ void static_collision_update(Point* tree, World* worldarray, Checks newcheck, in
 /*
 void dynamic_collision_update(Point player, World* worldarray, Checks newcheck)
 {
-	static int enemycounter = 0;
 	// for x in the grid
 	for (int x = 0; x < gridsize_x; x++)
 	{
 		// for y in the grid
 		for (int y = 0; y < gridsize_y; y++)
 		{
-			if (player.x == 7 && player.y == 7 && enemycounter < 1)
-			{
-				enemycounter = enemycounter + 1;
-			}
-			if (x == 7 && y == 7 && enemycounter != 1 && newcheck.spawnenemy)
-			{
-				set_collision_array(x, y, 1, worldarray);
-			}
+			//things go here
 		}
 	}
 }
@@ -451,9 +433,9 @@ Point* new_tree(void)
 	}
 	return tree;
 }
-Point enemy_movement(Point player, Point enemy, World* worldarray)
+game_object enemy_movement(Point player, game_object enemy, World* worldarray)
 {
-	Point save_enemy = enemy;
+	game_object save_enemy = enemy;
 	double bearing_to_player = (atan2(enemy.y - player.y, enemy.x - player.x) * (180.0 / 3.14159265358979323846));
 	if (bearing_to_player < 0)
 	{
@@ -499,8 +481,6 @@ Point enemy_movement(Point player, Point enemy, World* worldarray)
 	else
 		return enemy;
 	/*
-	Point start = {0, 0};
-	Point end = {7, 7};
 	Node* path = a_star(enemy, player, worldarray, gridWidth, gridHeight);
 
 	 if (path == NULL || path->parent == NULL)
@@ -568,13 +548,13 @@ leveldata levels(void)
 	}
 	return level;
 }
-int Distance(Point player, Point enemy)
+int Distance(Point player, game_object enemy)
 {
 	int i;
 	i = sqrt((enemy.x - player.x) ^ 2 + (enemy.y - player.y) ^ 2);
 	return i;
 }
-bool castRay(Point grid, Point player, Point enemy)
+bool castRay(Point grid, Point player, game_object enemy)
 {
 	// I don't know if this works
 	double curX = enemy.x;
@@ -598,7 +578,7 @@ bool castRay(Point grid, Point player, Point enemy)
 	return rayhits;
 }
 
-bool castRay_v2(int gridsize_x, int gridsize_y, Point player, Point enemy, World* worldarray) 
+bool castRay_v2(int gridsize_x, int gridsize_y, Point player, game_object enemy, World* worldarray) 
 {
    	int check = 2;
 
