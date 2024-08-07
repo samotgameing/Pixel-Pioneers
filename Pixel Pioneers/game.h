@@ -114,7 +114,7 @@ void set_Tree_array(int x, int y, World* worldarray);
 //^^^subgame.c^^^
 
 //---game.c---
-void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, int switchportalposition);
+void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, int switchportalposition, game_object enemy);
 // renders a frames based of gridsize (note: handles all rendering)
 
 void make_health_bar(void);

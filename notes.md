@@ -10,6 +10,6 @@ to do
     add levels - done
 bug 
     -in tree
-        -tree spawns too close to  wall
+        -tree spawns too close to  wall -
     -in getinput
-        -first input is ignore
+        -first input is ignore -

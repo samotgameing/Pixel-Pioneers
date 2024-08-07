@@ -47,8 +47,12 @@ int main(int argc, char* argv[])
 	// load grid and player start xy
 	int startx = 4;
 	int starty = 10;
+	game_object enemy;
+	enemy.x = 7;
+	enemy.y = 7;
+	enemy.life = true;
 	static_collision_update(tree, worldarray, newcheck, switchportalposition);
-	grid_render(make_player(startx, starty), tree, worldarray, newcheck, switchportalposition);
+	grid_render(make_player(startx, starty), tree, worldarray, newcheck, switchportalposition, enemy);
 	// check end_state if end_state = 1 break
 	while (end_state(0) != 1)
 	{
@@ -82,12 +86,18 @@ int main(int argc, char* argv[])
 					printf("error: game.c main(): No tree \n");
 				}
 			}
+			if (newcheck.newworld)
+			{
+				enemy.x = 7;
+				enemy.y = 7;
+			}
 			static_collision_update(tree, worldarray, newcheck, switchportalposition);
 			change_world(2);
 		}
 		// make world and move player
 		Point player = make_player(input.x, input.y);
-		grid_render(player, tree, worldarray, newcheck, switchportalposition);
+		enemy = enemy_movement(player, enemy, worldarray);
+		grid_render(player, tree, worldarray, newcheck, switchportalposition, enemy);
 		//dynamic_collision_update(player, worldarray, newcheck);
 		newcheck.newworld = false;
 	}
@@ -107,21 +117,12 @@ int main(int argc, char* argv[])
 	}
 	return 0;
 }
-void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, int switchportalposition)
+void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, int switchportalposition, game_object enemy)
 {
 	char cell_buffer[50];
 	char line_buffer[1000];
-	static int enemycounter = 0;
-	static game_object enemy;
 	char* cell_icon;
 	int cell_colour;
-	if (newcheck.newworld)
-	{
-		enemycounter = 0;
-		enemy.x = 7;
-		enemy.y = 7;
-	}
-	enemy = enemy_movement(player, enemy, worldarray);
 	// for x in the grid
 	for (int x = 0; x < gridsize_x; x++)
 	{
