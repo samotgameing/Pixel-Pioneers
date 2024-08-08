@@ -1,9 +1,11 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   game.c
-C:\Users\tomas\Desktop\Pixel-Pioneers\Pixel Pioneers\game.c(563,6): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  subgame.c
+C:\Users\tomas\Desktop\Pixel-Pioneers\Pixel Pioneers\game.c(181,18): warning C4087: 'make_health_bar': declared with 'void' parameter list
+C:\Users\tomas\Desktop\Pixel-Pioneers\Pixel Pioneers\game.c(428,22): warning C4129: 'e': unrecognized character escape sequence
+C:\Users\tomas\Desktop\Pixel-Pioneers\Pixel Pioneers\game.c(559,6): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   Generating code
-  Previous IPDB not found, fall back to full compilation.
-  All 35 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  3 of 36 functions ( 8.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   testest.vcxproj -> C:\Users\tomas\Desktop\Pixel-Pioneers\Output\Pixel Pioneers.exe

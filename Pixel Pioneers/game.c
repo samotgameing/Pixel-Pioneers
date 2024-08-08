@@ -1,6 +1,5 @@
 //MADE BY SAMOT
 #include "game.h"
-
 // set Global variables
 int gridsize_x = 10;
 int gridsize_y = 21;
@@ -423,6 +422,7 @@ void dynamic_collision_update(Point player, World* worldarray, Checks newcheck)
 void print_colour_buffer(char* text, int colour, char* cellbuffer)
 {
 	sprintf(cellbuffer, "\x1b[48;5;%dm%s\x1b[0m", colour, text);
+	//sprintf(cellbuffer, "\033[48;5;%dm%s\033[0m", colour, text);
 }
 Point* new_tree(void)
 {
