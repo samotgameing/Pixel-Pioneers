@@ -66,10 +66,10 @@ int main(int argc, char* argv[])
 			newcheck.spawnenemy = level.spawnenemy;
 			newcheck.spawn = level.spawn;
 			newcheck.spawnstart = false;
+			newcheck.newworld = true;
 			// if (newcheck.spawntree){tree = make_tree(random, worldarray);}
 			if (newcheck.spawntree)
 			{
-				newcheck.newworld = true;
 				if (level.tree.random)
 				{
 					tree = make_tree(random_grid_point(gridsize_x, gridsize_y), worldarray, tree);
@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 					printf("error: game.c main(): No tree \n");
 				}
 			}
-			if (newcheck.newworld)
+			if (newcheck.spawnenemy)
 			{
 				enemy.x = 7;
 				enemy.y = 7;
@@ -176,7 +176,8 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 
 		// print_colour(cell_icon,cell_colour);
 	}
-	make_health_bar;
+	int Health = 5;
+	make_health_bar(Health);
 	// debug view
 	if (debug != 0)
 	{
@@ -185,9 +186,8 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 	}	
 	printf("\n");
 }
-void make_health_bar(void)
+void make_health_bar(Health)
 {
-	int Health = 10;
 	char* Health_icon = " ";
 	char Health_buffer[100] = "";
 	char Health_line_buffer[200] = "";
@@ -212,6 +212,7 @@ void make_health_bar(void)
 	}
 	else
 	printf("Health:%s", &Health_line_buffer[0]);
+	return;
 }
 Point make_player(int x, int y)
 {
@@ -495,7 +496,7 @@ game_object enemy_movement(Point player, game_object enemy, World* worldarray)
 		path = path->parent;
 	}
 	return path->position;
-*/
+    */
 }
 leveldata levels(void)
 {
