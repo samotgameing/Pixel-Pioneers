@@ -54,7 +54,6 @@ typedef struct
 	bool life;
 } game_object;
 
-
 // defines
 #define grass_colour 28
 #define tree_num 1
