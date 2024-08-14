@@ -22,7 +22,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{4247a86c-9187-4771-b318-d9e17f496271}</ProjectGuid>
-    <RootNamespace>testest</RootNamespace>
+    <RootNamespace>Pixel Pioneers</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Pixel Pioneers</ProjectName>
   </PropertyGroup>
