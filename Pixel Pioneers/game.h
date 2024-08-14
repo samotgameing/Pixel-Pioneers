@@ -76,7 +76,7 @@ void clear_buffer(void);
 int make_start(void);
 // prompt user to start and prints startscreen
 
-void make_ending(void);
+void make_ending(int Health);
 // prints endscreen
 
 Point random_grid_point(int gridsize_x, int gridsize_y);
@@ -113,11 +113,14 @@ void set_Tree_array(int x, int y, World* worldarray);
 //^^^subgame.c^^^
 
 //---game.c---
-void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, int switchportalposition, game_object enemy);
+void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, int switchportalposition, game_object enemy, int Health);
 // renders a frames based of gridsize (note: handles all rendering)
 
-void make_health_bar(void);
+void make_health_bar(int Health);
 // renders the health bar
+
+int Health_update(Point player, game_object enemy, int Health);
+// updates the health of the player, if player dis to enemy =< 1
 
 Point make_player(int x, int y);
 // loads x,y in to and point and returns it

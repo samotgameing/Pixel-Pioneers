@@ -26,9 +26,6 @@ int make_start(void)
                "\n | |   | |>  <  __/ | | |   | | (_) | | | |  __/  __/ |  \\__ \\"
                "\n |_|   |_/_/\\_\\___|_| |_|   |_|\\___/|_| |_|\\___|\\___|_|  |___/\n");
         printf(" Loading...\n");
-        /*printf("Press ENTER to start the game...\n");
-        char buf[128];
-        fgets (buf, sizeof buf, stdin);*/
         time_t seconds;
         seconds = time(NULL);
         if (seconds == -1)
@@ -43,25 +40,49 @@ int make_start(void)
             seconds = time(NULL);
             //printf("%lo and %lo",timesave,seconds);
         }
-        printf("\033[2J");
-        return startstate + 1;
+        printf(" Debug y/n \n");
+        char input2;
+        clear_buffer();
+        scanf("%c", &input2);
+        if (input2 == 'y' || input2 == 'Y')
+        {
+            printf("\033[2J");
+            return startstate + 2;
+        }
+        else
+        {
+            printf("\033[2J");
+            return startstate + 1;
+        }
     }
     else
     {
         return startstate;
     }
 }
-void make_ending(void)
+void make_ending(int Health)
 {
     printf("\033[2J");
-    printf(" _                    __   ___              ___   __  \n"
-           "| |                  / /  / _ \\            / _ \\  \\ \\ \n"
-           "| |__  _   _  ___   | |  | | | |          | | | |  | |\n"
-           "| '_ \\| | | |/ _ \\  | |  | | | |          | | | |  | |\n"
-           "| |_) | |_| |  __/  | |  | |_| |          | |_| |  | |\n"
-           "|_.__/ \\__, |\\___|  | |   \\___/            \\___/   | |\n"
-           "        __/ |        \\_\\          ______          /_/ \n"
-           "       |___/                     |______|             \n");
+    if (Health <= 0) 
+    { 
+        printf(" __     ______  _    _   _      ____   _____ ______ \n"
+            " \\ \\   / / __ \\| |  | | | |    / __ \\ / ____|  ____|\n"
+            "  \\ \\_/ / |  | | |  | | | |   | |  | | (___ | |__   \n"
+            "   \\   /| |  | | |  | | | |   | |  | |\\___ \\|  __|  \n"
+            "    | | | |__| | |__| | | |___| |__| |____) | |____ \n"
+            "    |_|  \\____/ \\____/  |______\\____/|_____/|______|\n");
+    }
+    else
+    {
+        printf(" _                    __   ___              ___   __  \n"
+            "| |                  / /  / _ \\            / _ \\  \\ \\ \n"
+            "| |__  _   _  ___   | |  | | | |          | | | |  | |\n"
+            "| '_ \\| | | |/ _ \\  | |  | | | |          | | | |  | |\n"
+            "| |_) | |_| |  __/  | |  | |_| |          | |_| |  | |\n"
+            "|_.__/ \\__, |\\___|  | |   \\___/            \\___/   | |\n"
+            "        __/ |        \\_\\          ______          /_/ \n"
+            "       |___/                     |______|             \n");
+    }
     printf("\n");
 }
 Point random_grid_point(int gridsize_x, int gridsize_y)

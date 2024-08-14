@@ -11,16 +11,21 @@ time_t t;
 int main(int argc, char* argv[])
 {
 	srand((unsigned)time(&t));
-	if (argc == 2 && strcmp(argv[1], "debug") == 0)
+	/*if (argc == 2 && strcmp(argv[1], "debug") == 0)
 	{
 		debug = debug + 1;
-	}
+	}*/
 	// start sequence
 	// player input y or Y to start
-	if (make_start() == 0)
+	int start_settings = make_start();
+	if (start_settings == 0)
 	{
 		printf("byebye\n");
 		return 0;
+	}
+	else if (start_settings == 2)
+	{
+		debug = 1;
 	}
 	Point random;
 	random.x = 0;
@@ -50,8 +55,9 @@ int main(int argc, char* argv[])
 	enemy.x = 7;
 	enemy.y = 7;
 	enemy.life = true;
+	int Health = 10;
 	static_collision_update(tree, worldarray, newcheck, switchportalposition);
-	grid_render(make_player(startx, starty), tree, worldarray, newcheck, switchportalposition, enemy);
+	grid_render(make_player(startx, starty), tree, worldarray, newcheck, switchportalposition, enemy, Health);
 	// check end_state if end_state = 1 break
 	while (end_state(0) != 1)
 	{
@@ -96,12 +102,14 @@ int main(int argc, char* argv[])
 		// make world and move player
 		Point player = make_player(input.x, input.y);
 		enemy = enemy_movement(player, enemy, worldarray);
-		grid_render(player, tree, worldarray, newcheck, switchportalposition, enemy);
+		Health = Health_update(player, enemy, Health);
+		if (Health <= 0) { break; }
+		grid_render(player, tree, worldarray, newcheck, switchportalposition, enemy, Health);
 		//dynamic_collision_update(player, worldarray, newcheck);
 		newcheck.newworld = false;
 	}
 	// ending sequence
-	make_ending();
+	make_ending(Health);
 	if (worldarray != NULL)
 	{
 		// done using worldarray
@@ -116,7 +124,7 @@ int main(int argc, char* argv[])
 	}
 	return 0;
 }
-void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, int switchportalposition, game_object enemy)
+void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, int switchportalposition, game_object enemy, int Health)
 {
 	char cell_buffer[50];
 	char line_buffer[1000];
@@ -175,7 +183,6 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 
 		// print_colour(cell_icon,cell_colour);
 	}
-	int Health = 5;
 	make_health_bar(Health);
 	// debug view
 	if (debug != 0)
@@ -185,7 +192,7 @@ void grid_render(Point player, Point* tree, World* worldarray, Checks newcheck, 
 	}	
 	printf("\n");
 }
-void make_health_bar(Health)
+void make_health_bar(int Health)
 {
 	char* Health_icon = " ";
 	char Health_buffer[100] = "";
@@ -207,11 +214,28 @@ void make_health_bar(Health)
 	}
 	if (debug != 0)
 	{
-		printf("Health:%i%s", Health, &Health_line_buffer[0]);
+		printf("Health:%i %s\n", Health, &Health_line_buffer[0]);
 	}
 	else
-	printf("Health:%s", &Health_line_buffer[0]);
+	printf("Health:%s\n", &Health_line_buffer[0]);
 	return;
+}
+int Health_update(Point player, game_object enemy, int Health)
+{
+	if (Health <= 0) 
+	{
+		return 0;
+	}
+	if (!enemy.life)
+	{
+		return Health;
+	}
+	else if (abs(player.x - enemy.x) <= 1 && abs(player.y - enemy.y <= 1) )
+	{
+		return Health - 1;
+	}
+	else
+		return Health;
 }
 Point make_player(int x, int y)
 {
