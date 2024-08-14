@@ -27,3 +27,5 @@ portal is ^ coloured in light blue
 enemy is ^ coloured in green  
 ## Function
 function list is in game.h
+
+### last updated may 24
