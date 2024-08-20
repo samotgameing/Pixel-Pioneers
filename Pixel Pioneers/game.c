@@ -279,9 +279,10 @@ Point get_input(World* worldarray)
             case 's': x++; break;
             case 'd': y++; break;
             case 'e': end_state(1); input = (Point){-1, -1}; return input;
+			case 'q': BEAM(); break;
             default: continue;
         }
-    } while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd' && wasd != 'e');
+    } while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd' && wasd != 'e' && wasd != 'q');
 	if (is_colliding(x, y, worldarray, 3))
 	{
 		// THIS FUCKING CODE IS SO FUCKING STUPID WHY DID I MAKE THIS
@@ -327,6 +328,23 @@ Point get_input(World* worldarray)
 		printf("\033[2J");
 		return input;
 	}
+}
+void BEAM(void)
+{
+	int bearing;
+	char wasd;
+	do
+	{
+		printf("\nbearing to fire wasd: ");
+        clear_buffer();
+        wasd = getchar();
+        switch (wasd) {
+            case 'w': bearing = 1; break;
+            case 'a': bearing = 2; break;
+            case 's': bearing = 3; break;
+            case 'd': bearing = 4; break;
+		}
+	}while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd');
 }
 int end_state(int n)
 {

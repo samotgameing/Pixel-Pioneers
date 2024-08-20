@@ -128,6 +128,8 @@ Point make_player(int x, int y);
 Point get_input(World* worldarray);
 // prompt user for input and handles new player position
 
+void BEAM(void);
+
 int end_state(int n);
 // checks if to stop rendering new frames
 
