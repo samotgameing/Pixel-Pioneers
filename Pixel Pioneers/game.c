@@ -279,7 +279,7 @@ Point get_input(World* worldarray)
             case 's': x++; break;
             case 'd': y++; break;
             case 'e': end_state(1); input = (Point){-1, -1}; return input;
-			case 'q': BEAM(); break;
+			case 'q': /*BEAM();*/ break;
             default: continue;
         }
     } while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd' && wasd != 'e' && wasd != 'q');
@@ -329,9 +329,9 @@ Point get_input(World* worldarray)
 		return input;
 	}
 }
-void BEAM(void)
+void BEAM(Point player, World *worldarray)
 {
-	int bearing;
+	Point bearing;
 	char wasd;
 	do
 	{
@@ -339,12 +339,18 @@ void BEAM(void)
         clear_buffer();
         wasd = getchar();
         switch (wasd) {
-            case 'w': bearing = 1; break;
-            case 'a': bearing = 2; break;
-            case 's': bearing = 3; break;
-            case 'd': bearing = 4; break;
+            case 'w': bearing = (Point){0, player.y}; break;
+            case 'a': bearing = (Point){player.x, 0}; break;
+            case 's': bearing = (Point){gridsize_x, player.y}; break;
+            case 'd': bearing = (Point){player.x, gridsize_y} ; break;
 		}
 	}while (wasd != 'w' && wasd != 'a' && wasd != 's' && wasd != 'd');
+	//player 
+	/* if (castRay_v2(player, bearing, World *worldarray);)
+	{
+		kill enmey
+	}
+	*/
 }
 int end_state(int n)
 {
@@ -622,7 +628,7 @@ bool castRay(Point grid, Point player, game_object enemy)
 	return rayhits;
 }
 
-bool castRay_v2(int gridsize_x, int gridsize_y, Point player, game_object enemy, World* worldarray) 
+bool castRay_v2(Point player, game_object enemy, World* worldarray) 
 {
    	int check = 2;
 

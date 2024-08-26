@@ -128,7 +128,7 @@ Point make_player(int x, int y);
 Point get_input(World* worldarray);
 // prompt user for input and handles new player position
 
-void BEAM(void);
+void BEAM(Point player, World *worldarray);
 
 int end_state(int n);
 // checks if to stop rendering new frames
@@ -170,7 +170,7 @@ int Distance(Point player, game_object enemy);
 bool castRay(Point grid, Point player, game_object enemy);
 // raycast from enemy to player
 
-bool castRay_v2(int gridsize_x, int gridsize_y, Point player, game_object enemy, World* worldarray);
+bool castRay_v2(Point player, game_object enemy, World* worldarray);
 // raycast from enemy to player
 
 //^^^game.c^^^
