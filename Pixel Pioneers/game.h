@@ -129,6 +129,7 @@ Point get_input(World* worldarray);
 // prompt user for input and handles new player position
 
 void BEAM(Point player, World *worldarray);
+// get input for bearing then if ray hit enmey, kill enmey
 
 int end_state(int n);
 // checks if to stop rendering new frames
