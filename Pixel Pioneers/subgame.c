@@ -39,6 +39,7 @@ int make_start(void)
         {
             seconds = time(NULL);
             //printf("%lo and %lo",timesave,seconds);
+            //flag
         }
         printf(" Debug y/n \n");
         char input2;
